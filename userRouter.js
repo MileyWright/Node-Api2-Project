@@ -1,15 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const db = require('./data/db');
+router.use(express.json())
 
 router.get('/', (req,res) =>{
-    const user = [
-        {
-            title: "The Witcher",
-            content: "Netflix show"
-        }
-    ]
-    db.find(user)
+    db.find()
     .then(user => {
         res.status(200).json(user);
     })
