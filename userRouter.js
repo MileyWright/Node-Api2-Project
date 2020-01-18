@@ -11,24 +11,19 @@ router.get('/', (req,res) =>{
     .catch(err => {
         res.status(500).json(err)
     })
-
- 
-
 })
 
 //POST request to /api/posts
 router.post('/', (req,res) => {
-    const dbData = res.body;
-    db.insert(dbData)
+    const dbData = req.body;
+    if(!dbData.title || !dbData.contents){
+        res.status(400).json({
+            errorMessage: 'Please provide title and contents for the post.'
+        })
+    } else {
+        db.insert(dbData)
         .then(user => {
-            if(dbData.title === '' || dbData.content === ''){
-                
-                res.status(400).json({
-                    errorMessage: 'Please provide title and contents for the post.'
-                })
-            } else {
-                res.status(201).json(user)
-            }
+            res.status(201).json(user)
         })
         .catch(err => {
             console.log(err)
@@ -36,6 +31,8 @@ router.post('/', (req,res) => {
                 error: 'There was an error while saving the post to the database'
             })
         })
+    }
+
 })
 
 module.exports = router;
