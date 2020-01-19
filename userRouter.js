@@ -3,13 +3,15 @@ const router = express.Router();
 const db = require('./data/db');
 router.use(express.json())
 
+//GET request to /api/posts
 router.get('/', (req,res) =>{
     db.find()
     .then(user => {
         res.status(200).json(user);
     })
     .catch(err => {
-        res.status(500).json(err)
+        console.log(err)
+        res.status(500).json({ errorMessage: 'The posts information could not be retrieved.'})
     })
 })
 
